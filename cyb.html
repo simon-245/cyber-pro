@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cyber Pro: WiFi Trap in Tallinn</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(#dceefb, #f7fafc);
+      padding: 40px;
+      max-width: 700px;
+      margin: auto;
+      color: #2b4c7e;
+    }
+    h1 { text-align: center; }
+    .scene {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      line-height: 1.5em;
+    }
+    button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #2b4c7e;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover { background: #3c6bb2; }
+    #xp {
+      text-align: right;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🕵️ Cyber Pro Mission: WiFi Trap</h1>
+  <div id="xp">XP: 0</div>
+  <div id="game" class="scene">
+    <p>Loading mission...</p>
+  </div>
+
+  <script>
+    let xp = 0;
+
+    const scenes = {
+      intro: {
+        text: `
+          📍 <b>Location:</b> Tallinn Old Town Café<br><br>
+          Reports say several citizens had their data stolen after using free WiFi here.<br>
+          You are a <b>Cyber Police Cadet</b> on your first mission.<br><br>
+          🎯 <b>Goal:</b> Identify which networks are unsafe and explain why.`,
+        choices: [
+          { text: "Inspect available WiFi networks", next: "wifiList" }
+        ]
+      },
+      wifiList: {
+        text: `
+          You scan the area and find these networks:<br><br>
+          1️⃣ <b>Tallinn_Free_WiFi</b> (No password)<br>
+          2️⃣ <b>CafeSecure2025</b> (Password protected)<br>
+          3️⃣ <b>FreeCoffeeWiFi</b> (Shared password on wall)<br><br>
+          Which network will you investigate first?`,
+        choices: [
+          { text: "🔍 Tallinn_Free_WiFi", next: "unsafe1" },
+          { text: "🔍 CafeSecure2025", next: "safe1" },
+          { text: "🔍 FreeCoffeeWiFi", next: "unsafe2" }
+        ]
+      },
+      unsafe1: {
+        text: `
+          ⚠️ The moment you connect, you see open traffic — unencrypted packets and unknown devices.<br>
+          A hacker is capturing credentials.<br><br>
+          ❌ Unsafe network detected.`,
+        xpChange: -5,
+        choices: [
+          { text: "Mark unsafe & continue", next: "wifiList2" }
+        ]
+      },
+      unsafe2: {
+        text: `
+          ⚠️ Shared password found. Multiple unknown devices connected.<br>
+          Phishing popups appear on the network.<br><br>
+          ❌ Unsafe network confirmed.`,
+        xpChange: -3,
+        choices: [
+          { text: "Mark unsafe & continue", next: "wifiList2" }
+        ]
+      },
+      safe1: {
+        text: `
+          ✅ Secure encryption detected, strong password policy, verified domain.<br>
+          No suspicious devices connected.<br><br>
+          👍 Safe network identified.`,
+        xpChange: +10,
+        choices: [
+          { text: "Proceed with investigation", next: "conclusion" }
+        ]
+      },
+      wifiList2: {
+        text: `
+          You’ve marked some networks unsafe.<br><br>
+          Choose the remaining safest option:`,
+        choices: [
+          { text: "🛡️ CafeSecure2025", next: "conclusion" }
+        ]
+      },
+      conclusion: {
+        text: `
+          🎓 <b>Mission Complete!</b><br><br>
+          ✅ Safe: CafeSecure2025<br>
+          ⚠️ Unsafe: Tallinn_Free_WiFi, FreeCoffeeWiFi<br><br>
+          🧠 <b>Lesson:</b> Avoid open or shared WiFi networks. Always choose secure, password-protected options.<br><br>
+          <span id="final-rank"></span>`,
+        choices: [
+          { text: "🔁 Restart Mission", next: "restart" }
+        ]
+      },
+      restart: {
+        text: "",
+        choices: []
+      }
+    };
+
+    const gameDiv = document.getElementById("game");
+    const xpDiv = document.getElementById("xp");
+    let current = "intro";
+
+    function renderScene() {
+      const scene = scenes[current];
+      if (scene.xpChange) {
+        xp += scene.xpChange;
+      }
+      xpDiv.textContent = `XP: ${xp}`;
+      gameDiv.innerHTML = `<p>${scene.text}</p>`;
+      scene.choices.forEach(choice => {
+        const btn = document.createElement("button");
+        btn.textContent = choice.text;
+        btn.onclick = () => {
+          if (choice.next === "restart") {
+            xp = 0;
+            current = "intro";
+          } else {
+            current = choice.next;
+          }
+          renderScene();
+        };
+        gameDiv.appendChild(btn);
+      });
+
+      // At conclusion, display rank
+      if (current === "conclusion") {
+        let rank = "";
+        if (xp >= 10) rank = "🏅 Rank: Cyber Investigator (Excellent Work!)";
+        else if (xp >= 0) rank = "🎓 Rank: Trainee (Good, but review unsafe clues)";
+        else rank = "⚠️ Rank: Needs Improvement (Be more cautious!)";
+        document.getElementById("final-rank").innerHTML = `<br>${rank}`;
+      }
+    }
+
+    renderScene();
+  </script>
+</body>
+</html>
