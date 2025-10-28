@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyber Pro – Mission Select</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/game.js" defer></script>
+</head>
+<body class="main-bg">
+  <div class="container center">
+    <h2>Select Your Mission</h2>
+
+    <div id="missionList" class="mission-grid">
+      <button data-level="wifi"  id="wifiBtn">Wi-Fi Trap</button>
+      <button data-level="ads"   id="adsBtn"  disabled>Ad Trap</button>
+      <button data-level="phishing" id="phishBtn" disabled>Phishing Alert</button>
+    </div>
+
+    <p class="score">Score: <span id="scoreValue">0</span></p>
+
+    <button id="backBtn" class="small-btn">Back to Menu</button>
+    <button onclick="CyberPro.resetProgress()" class="small-btn">Reset Progress</button>
+  </div>
+</body>
+</html>

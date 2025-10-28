@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyber Pro – Wi-Fi Trap</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/game.js" defer></script>
+  <script src="js/quiz.js" defer></script>
+</head>
+<body class="main-bg">
+  <div class="container">
+    <h2>Wi-Fi Trap</h2>
+    <div id="quizContainer"></div>
+  </div>
+
+  <script>
+    // === ALL 15 NETWORKS ===
+    const allNetworks = [
+      // === ORIGINAL 7 ===
+      { name: "Tallinn_Free_WiFi", type: "open", risk: "high", xp: -8, desc: "No password. Fully exposed to anyone." },
+      { name: "CafeSecure2025", type: "wpa", risk: "low", xp: 15, desc: "Strong password. WPA3 encryption." },
+      { name: "FreeCoffeeWiFi", type: "shared", risk: "high", xp: -5, desc: "Password on wall. Anyone can join." },
+      { name: "TallinnAirport_Guest", type: "open", risk: "high", xp: -7, desc: "Open guest network. Fake hotspot risk." },
+      { name: "e-Estonia_Public", type: "enterprise", risk: "lowest", xp: 18, desc: "WPA3-Enterprise. Government-grade." },
+      { name: "HotelBaltic_5G", type: "guest", risk: "medium", xp: -3, desc: "Reception code. Shared but encrypted." },
+      { name: "FreeCityHotspot", type: "sms", risk: "high", xp: -6, desc: "SMS login. Phone number harvested." },
+
+      // === 8 NEW TALLINN-THEMED ===
+      { name: "Telliskivi_Free", type: "open", risk: "high", xp: -9, desc: "Creative district hotspot. Often fake." },
+      { name: "NordicHotel_WiFi", type: "wpa", risk: "low", xp: 14, desc: "Hotel guest network. Unique password." },
+      { name: "e-Residency_Hub", type: "enterprise", risk: "lowest", xp: 20, desc: "Official e-Residency center. Max security." },
+      { name: "UberDriver_WiFi", type: "shared", risk: "high", xp: -7, desc: "Driver shares hotspot. All passengers see traffic." },
+      { name: "ViruKeskus_Guest", type: "open", risk: "high", xp: -6, desc: "Mall open network. High traffic, high risk." },
+      { name: "TTU_Student", type: "wpa", risk: "low", xp: 16, desc: "University network. Strong auth." },
+      { name: "Bolt_Scooter_Net", type: "sms", risk: "high", xp: -8, desc: "Scooter app login. Tracks your location." },
+      { name: "OldTown_Tourist", type: "open", risk: "high", xp: -7, desc: "Tourist trap. Evil twin hotspot likely." }
+    ];
+
+    // === GENERATE 5 QUESTIONS (3 networks each) ===
+    function generateQuiz() {
+      const shuffled = [...allNetworks].sort(() => Math.random() - 0.5);
+      const questions = [];
+
+      // 5 scans: 15 networks → 3 per question
+      for (let i = 0; i < 5; i++) {
+        const start = i * 3;
+        const networks = shuffled.slice(start, start + 3);
+        const isFinal = i === 4;
+        questions.push(createQuestion(networks, i + 1, isFinal));
+      }
+
+      return questions;
+    }
+
+    function createQuestion(networks, qNum, isFinal = false) {
+      const best = networks.reduce((a, b) => (a.xp > b.xp ? a : b));
+      const correctNext = `outcome_${best.name}`;
+
+      return {
+        text: `
+          <b>Scan #${qNum}</b><br>
+          You detect <strong>3 networks</strong>:<br><br>
+          ${networks.map((n, i) => `
+            ${i + 1}. <b>${n.name}</b><br>
+            <small>${getIcon(n.type)} ${formatType(n.type)}</small><br>
+          `).join('<br>')}<br>
+          ${isFinal ? '<strong>Choose the safest to connect:</strong>' : 'Which do you investigate first?'}`,
+        choices: networks.map(n => ({
+          text: n.name,
+          next: `outcome_${n.name}`,
+          xpChange: n.xp,
+          outcome: {
+            text: n.desc,
+            xpChange: n.xp,
+            isSafe: n.risk === "low" || n.risk === "lowest"
+          }
+        })),
+        correctNext: correctNext
+      };
+    }
+
+    function formatType(type) {
+      const labels = {
+        open: "No password",
+        wpa: "Password protected",
+        enterprise: "WPA3-Enterprise",
+        shared: "Shared password",
+        guest: "Guest code",
+        sms: "SMS login"
+      };
+      return labels[type] || type;
+    }
+
+    function getIcon(type) {
+      const icons = {
+        open: "Open",
+        wpa: "Locked",
+        enterprise: "Shield",
+        shared: "Shared",
+        guest: "Key",
+        sms: "SMS"
+      };
+      return icons[type] || "WiFi";
+    }
+
+    // === OUTCOME + CONTINUE ===
+    document.addEventListener('DOMContentLoaded', () => {
+      const quiz = generateQuiz();
+
+      // Override selectAnswer
+      const originalSelect = window.selectAnswer;
+      window.selectAnswer = function(idx) {
+        const q = quizState.questions[quizState.current];
+        const choice = q.choices[idx];
+        const outcome = choice.outcome;
+
+        // XP
+        quizState.xp += outcome.xpChange;
+        document.getElementById('xpLive').textContent = quizState.xp;
+
+        // Feedback
+        const feedback = document.getElementById('feedback');
+        feedback.innerHTML = `
+          <div style="background:rgba(255,255,255,0.1); padding:1rem; border-radius:8px; margin:1rem 0; text-align:left;">
+            <p><strong>${outcome.isSafe ? 'Safe choice!' : 'Risky!'}</strong></p>
+            <p>${outcome.text}</p>
+            <p style="color:${outcome.xpChange > 0 ? '#0f0' : '#f55'}; font-weight:bold; margin-top:0.5rem;">
+              ${outcome.xpChange > 0 ? '+' : ''}${outcome.xpChange} XP
+            </p>
+          </div>
+          <button class="small-btn" onclick="continueQuiz()">Continue</button>
+        `;
+
+        document.querySelectorAll('.answer-btn').forEach(b => b.disabled = true);
+
+        window.continueQuiz = () => {
+          quizState.current++;
+          if (quizState.current < quizState.questions.length) {
+            renderQuestion();
+          } else {
+            showConclusion();
+          }
+        };
+      };
+
+      startQuiz(quiz, "Wi-Fi Trap", "ads.html");
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyber Pro – Ad Trap</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/game.js" defer></script>
+  <script src="js/quiz.js" defer></script>
+</head>
+<body class="main-bg">
+  <div class="container">
+    <h2>Ad Trap</h2>
+    <div id="quizContainer"></div>
+  </div>
+
+  <script>
+    const adQuiz = [
+      {
+        text: `
+          <b>Free iPhone 15 Pro!</b><br>
+          Click below to claim your prize now!<br><br>
+          <button style="pointer-events:none">Claim Now</button><br><br>
+          What do you do?`,
+        choices: [
+          { text: "Click to claim", next: "fake", xpChange: -8 },
+          { text: "Ignore – too good to be true", next: "safe", xpChange: 12 }
+        ],
+        correctNext: "safe"
+      },
+      {
+        text: `
+          <b>Tallinn Tech Fair 2025</b><br>
+          Official registration open. Limited seats.<br>
+          <i>tallinntechfair.ee/register</i><br><br>
+          Is this safe?`,
+        choices: [
+          { text: "Register now", next: "safe", xpChange: 10 },
+          { text: "Check domain first", next: "safe", xpChange: 10 },
+          { text: "Skip – looks suspicious", next: "fake", xpChange: -5 }
+        ],
+        correctNext: "safe"
+      },
+      {
+        text: `
+          <b>School Verification Required</b><br>
+          Your child’s grades are ready. Login at:<br>
+          <code>bit.ly/school-login-2025</code><br><br>
+          Safe to click?`,
+        choices: [
+          { text: "Click the link", next: "fake", xpChange: -10 },
+          { text: "Go directly to school portal", next: "safe", xpChange: 15 }
+        ],
+        correctNext: "safe"
+      },
+      {
+        text: `
+          <b>Health Notice – Urgent</b><br>
+          Your vaccination record needs update.<br>
+          Click to verify: <u>health-ee.co/vax</u><br><br>
+          What should you do?`,
+        choices: [
+          { text: "Click to verify", next: "fake", xpChange: -9 },
+          { text: "Visit tehik.ee manually", next: "safe", xpChange: 12 }
+        ],
+        correctNext: "safe"
+      },
+      {
+        text: `
+          <b>You Won a Prize!</b><br>
+          Scan QR code to claim:<br>
+          <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzAwMCIvPjx0ZXh0IHg9IjUwIiB5PSI1MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE2IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+U1RPUjwvdGV4dD48L3N2Zz4=" alt="QR" width="80"><br><br>
+          <small>Leads to: <code>prize.ly/claim</code></small><br><br>
+          Safe?`,
+        choices: [
+          { text: "Scan QR code", next: "fake", xpChange: -12 },
+          { text: "Never scan unknown QR", next: "safe", xpChange: 15 },
+          { text: "Check URL first", next: "safe", xpChange: 15 }
+        ],
+        correctNext: "safe"
+      }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      startQuiz(adQuiz, "Ad Trap", "phishing.html");
+    });
+  </script>
+</body>
+</html>
