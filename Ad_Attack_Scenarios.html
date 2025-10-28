@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Cyber Pro — Ad Attack Scenarios</title>
+<style>
+  body{font-family:Segoe UI,Arial,sans-serif;background:linear-gradient(#eef7ff,#f9feff);color:#07203a;padding:24px;}
+  .wrapper{max-width:900px;margin:0 auto;}
+  h1{color:#0b4c7a;}
+  .card{background:#fff;border-radius:10px;padding:16px;margin:12px 0;box-shadow:0 6px 18px rgba(10,30,60,0.06);}
+  .ad-title{font-weight:700;color:#13304b;}
+  .ad-text{margin:8px 0;color:#234f70;}
+  .meta{font-size:13px;color:#6b8699;}
+  .controls{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;}
+  button{padding:10px 12px;border-radius:8px;border:0;cursor:pointer;font-weight:700;color:#fff;}
+  .real{background:#2e8b57;} .fake{background:#e53935;} .close{background:#6b7a8a;}
+  .log{background:#f6fbff;border-radius:8px;padding:10px;color:#0f2b44;margin-top:12px;border:1px solid #e6f2fb;}
+  .hint{font-size:13px;color:#315b82;margin-top:8px;}
+  footer{margin-top:18px;font-size:13px;color:#6b7a8a;}
+  .score{float:right;font-weight:800;color:#0b4c7a;}
+</style>
+</head>
+<body>
+  <div class="wrapper">
+    <h1>Cyber Pro — Real vs Fake Advertisement Scenarios <span class="score" id="score">XP: 0</span></h1>
+    <div id="adArea"></div>
+    <div id="result" class="card" style="display:none"></div>
+    <div id="log" class="log" aria-live="polite"></div>
+    <footer>Hover link text (where shown) to reveal the real URL. Report = best for fake ads; Close is acceptable; Click is dangerous in fake cases.</footer>
+  </div>
+
+<script>
+const AD_POOL = [
+  { id:1, type:'fake', title:'🎉 Win a Free iPhone!', text:'CONGRATS! You’ve won a FREE iPhone — claim now! Click the link to verify your details and get your prize.', displayLink:'claim prize', realURL:'http://freeprize.example-claim.com', clues:['Overly sensational wording','Urgent call-to-action','Unknown sender domain'] },
+  { id:2, type:'real', title:'Tallinn Tech Fair — Official', text:'Tallinn Tech Fair 2025 — Workshops & family events. Visit the official site for tickets.', displayLink:'tallinn.ee/tickets', realURL:'https://tallinn.ee/tickets', clues:['Official .ee domain','Professional formatting','Contact info present'] },
+  { id:3, type:'fake', title:'School Account Verification', text:'School Portal — Verify your child’s registration now: verify.school-portal.net', displayLink:'verify.school-portal.net', realURL:'http://school-reg.example-login.com', clues:['Display name mismatch','Requests credentials','Unusual domain'] },
+  { id:4, type:'real', title:'Official Health Notice', text:'City Health: Vaccination timetable published. Details & booking.', displayLink:'tallinnhealth.ee/info', realURL:'https://tallinnhealth.ee/info', clues:['Trusted health domain','HTTPS and clear info'] },
+  { id:5, type:'fake', title:'Too-Good Prize + Shortener', text:'You’re a winner! Short survey & get €500 voucher — tinyurl.com/win-now', displayLink:'tinyurl.com/win-now', realURL:'http://tinyurl.example-redirect.com', clues:['URL shortener hides destination','Unrealistic reward','Poor grammar'] }
+];
+
+let sessionAds = [];
+let current = 0;
+let xp = 0;
+
+function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+function pickSession(){ sessionAds = shuffle(AD_POOL.slice()); sessionAds = sessionAds.slice(0,5); current=0; xp=0; document.getElementById('score').textContent='XP: '+xp; document.getElementById('log').textContent='Mission started. Inspect ads and decide.'; renderAd(); }
+
+function renderAd(){
+  const ad = sessionAds[current];
+  const adArea = document.getElementById('adArea');
+  adArea.innerHTML = `
+    <div class="card" id="card${ad.id}">
+      <div class="ad-title">${ad.title}</div>
+      <div class="ad-text">${ad.text}</div>
+      <div class="meta">Link: <span id="linkText" title="Hover to reveal real URL" style="text-decoration:underline;color:#0b66a6;cursor:default">${ad.displayLink}</span></div>
+      <div class="controls">
+        <button class="real" id="btnReal">Real</button>
+        <button class="fake" id="btnFake">Fake</button>
+        <button class="close" id="btnClose">Close</button>
+      </div>
+      <div class="hint" id="hintArea"></div>
+    </div>
+  `;
+
+  const linkText = document.getElementById('linkText');
+  const hintArea = document.getElementById('hintArea');
+  linkText.addEventListener('mouseenter', ()=>{ hintArea.textContent = 'Real URL: '+ad.realURL; });
+  linkText.addEventListener('mouseleave', ()=>{ hintArea.textContent = ''; });
+
+  document.getElementById('btnReal').onclick = ()=> evaluate('real', ad);
+  document.getElementById('btnFake').onclick = ()=> evaluate('fake', ad);
+  document.getElementById('btnClose').onclick = ()=> evaluate('close', ad);
+}
+
+function evaluate(choice, ad){
+  let delta=0, msg='';
+  if(choice==='real'){
+    if(ad.type==='real'){ delta=+5; msg='Correct — this ad is legitimate.'; } else { delta=-10; msg='Wrong — that was a fake ad with phishing risk.'; }
+  } else if(choice==='fake'){
+    if(ad.type==='fake'){ delta=+10; msg='Great — you reported a fake ad.'; } else { delta=-5; msg='Incorrect — this ad was legitimate.'; }
+  } else if(choice==='close'){
+    if(ad.type==='fake'){ delta=+5; msg='Good — closing a fake ad reduces risk.'; } else { delta=0; msg='Closed a real ad — you missed the info.'; }
+  }
+  xp += delta;
+  document.getElementById('score').textContent='XP: '+xp;
+  const log = document.getElementById('log');
+  log.prepend(new Date().toLocaleTimeString()+ ' — Action: '+choice.toUpperCase()+ ' | Result: '+msg + ' (' + (delta>=0? '+'+delta:delta) + ' XP)\nClues: ' + ad.clues.join('; ') + '\n\n');
+
+  // show short result card
+  const result = document.getElementById('result');
+  result.style.display='block';
+  result.innerHTML = `<div class="card"><strong>${msg}</strong><div style="margin-top:6px;color:#2b5876">Clues: ${ad.clues.join('; ')}</div></div>`;
+
+  // move to next after delay
+  setTimeout(()=>{
+    result.style.display='none';
+    current++;
+    if(current>=sessionAds.length){ finishSession(); } else { renderAd(); }
+  }, 1300);
+}
+
+function finishSession(){
+  const adArea = document.getElementById('adArea');
+  adArea.innerHTML = `<div class="card"><h2>Mission Complete</h2><p>Final XP: ${xp}</p><p><button onclick="pickSession()">Play Again</button></p></div>`;
+  const log = document.getElementById('log');
+  log.prepend('--- Session finished: Final XP: '+xp+' ---\n');
+}
+
+window.onload = ()=>{ pickSession(); };
+
+</script>
+</body>
+</html>
