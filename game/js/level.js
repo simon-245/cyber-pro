@@ -7,6 +7,26 @@ function goTo(url) {
   window.location.href = url;
 }
 
+// Function to go to the next level based on current page
+function goToNextLevel() {
+    const currentPage = window.location.pathname;
+    const match = currentPage.match(/level_(\d+)\.html/);
+    
+    if (match) {
+      console.log("matched")
+        const currentLevel = parseInt(match[1]);
+        if(currentLevel==5){
+          alert("Good job, you completed all levels!")
+        }
+        const nextLevel = currentLevel + 1;
+        window.location.href = `level_${nextLevel}.html`;
+    } else {
+      console.log("didnt match")
+        // Fallback if pattern doesn't match
+        window.location.href = 'level_2.html';
+    }
+}
+
 // Icon mapping for different scenario types
 const SCENARIO_ICONS = {
     wifi: '📡',
@@ -25,9 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     document.getElementById('submitBtn')?.addEventListener('click', checkAnswers);
     
-    document.getElementById('nextLevelBtn')?.addEventListener('click', () => {
-        alert('Well done! Moving to the next level is not yet implemented.');
-    });
+    document.getElementById('nextLevelBtn')?.addEventListener('click', goToNextLevel);
 });
 
 let currentLevelData = null;
