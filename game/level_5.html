@@ -1,0 +1,66 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyber Pro – Level 5: Robert's Hack</title>
+  <link rel="stylesheet" href="css/new_style.css" />
+  <script src="js/level.js" defer></script>
+</head>
+<body class="main-bg">
+  <div class="container">
+    <header>
+      <h1>Level 5: Robert's Hack</h1>
+      <p id="level-story"></p>
+    </header>
+
+    <main>
+      <h2>⚠️ Identify the **Unsafe Scenarios** ⚠️</h2>
+      <p>Click on the scenarios you think are **unsafe** to select them.</p>
+
+      <div id="scenarios-container" class="mission-grid">
+        </div>
+
+      <div class="feedback" id="result-feedback"></div>
+
+      <button id="submitBtn" class="big-btn">Submit Answer</button>
+      <button id="nextLevelBtn" class="small-btn" style="display:none; margin-top: 1rem;">Next Level >></button>
+    </main>
+  </div>
+<script id="level-data" type="application/json">
+{
+  "story":{
+    "character_name":"Robert",
+    "age":"8",
+    "background":"Robert has a dog named Max",
+    "story":"Robert was hacked! You must find out why!"
+  },
+  "scenarios":[
+    {
+      "type":"",
+      "title":"",
+      "description":"",
+      "is_safe":true,
+      "explaination":""
+    },
+    {
+      "type":"phishing",
+      "title":"Email:",
+      "description":"Hello Robert, we saw pictures of Max! Click here to view the photo gallery: http://photos-free.example — no download needed.",
+      "is_safe":false,
+      "explaination":"This message uses a lure (photos of the pet) to get Robert to click. Links on unknown domains can lead to tracking, credential prompts, or malware. Always check who sent the message and avoid clicking unfamiliar links."
+    },
+    {
+      "type":"password",
+      "title":"Max2025",
+      "description":"Is the password that Robert used.",
+      "is_safe":false,
+      "explaination":"Is very short and uses Robert's pet's name, which is something that hackers can discover and use to guess the passowrd."
+    }
+  ]
+}
+  </script>
+</body>
+</html>

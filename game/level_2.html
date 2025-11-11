@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyber Pro – Level 2: Kristjan's Hack</title>
+  <link rel="stylesheet" href="css/new_style.css" />
+  <script src="js/level.js" defer></script>
+</head>
+<body class="main-bg">
+  <div class="container">
+    <header>
+      <h1>Level 2: Kristjan's Hack</h1>
+      <p id="level-story"></p>
+    </header>
+
+    <main>
+      <h2>⚠️ Identify the **Unsafe Scenarios** ⚠️</h2>
+      <p>Click on the scenarios you think are **unsafe** to select them.</p>
+
+      <div id="scenarios-container" class="mission-grid">
+        </div>
+
+      <div class="feedback" id="result-feedback"></div>
+
+      <button id="submitBtn" class="big-btn">Submit Answer</button>
+      <button id="nextLevelBtn" class="small-btn" style="display:none; margin-top: 1rem;">Next Level >></button>
+    </main>
+  </div>
+<script id="level-data" type="application/json">
+{
+  "story":{
+    "character_name":"Kristjan",
+    "age":"12",
+    "background":"Enjoys drawing animals.",
+    "story":"Kristjan was hacked, you must find out why!"
+  },
+  "scenarios":[
+    {
+      "type":"",
+      "title":"",
+      "description":"",
+      "is_safe":true,
+      "explaination":""
+    },
+    {
+      "type":"phishing",
+      "title":"Email:",
+      "description":"Congrats Kristjan! You’ve won an art supplies voucher. Click this official-looking page to claim: https://art-prizes.example/redeem — No login required.",
+      "is_safe":true,
+      "explaination":"Seems legitimate and doesn't ask for password. Still, Kristjan should verify the address."
+    },
+    {
+      "type":"password",
+      "title":"D0g!R@inb0w77",
+      "description":"The password that Kristjan used.",
+      "is_safe":true,
+      "explaination":"It mixes capital letters, numbers, and symbols with random words, making it very hard to crack."
+    }
+  ]
+}
+  </script>
+</body>
+</html>

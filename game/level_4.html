@@ -1,0 +1,66 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyber Pro – Level 4: Linda's Hack</title>
+  <link rel="stylesheet" href="css/new_style.css" />
+  <script src="js/level.js" defer></script>
+</head>
+<body class="main-bg">
+  <div class="container">
+    <header>
+      <h1>Level 4: Linda's Hack</h1>
+      <p id="level-story"></p>
+    </header>
+
+    <main>
+      <h2>⚠️ Identify the **Unsafe Scenarios** ⚠️</h2>
+      <p>Click on the scenarios you think are **unsafe** to select them.</p>
+
+      <div id="scenarios-container" class="mission-grid">
+        </div>
+
+      <div class="feedback" id="result-feedback"></div>
+
+      <button id="submitBtn" class="big-btn">Submit Answer</button>
+      <button id="nextLevelBtn" class="small-btn" style="display:none; margin-top: 1rem;">Next Level >></button>
+    </main>
+  </div>
+<script id="level-data" type="application/json">
+{
+  "story":{
+    "character_name":"Linda",
+    "age":"9",
+    "background":"Is very good at playing the piano.",
+    "story":"Linda was Hacked! You must find out why!"
+  },
+  "scenarios":[
+    {
+      "type":"",
+      "title":"",
+      "description":"",
+      "is_safe":true,
+      "explaination":""
+    },
+    {
+      "type":"phishing",
+      "title":"Email:",
+      "description":"From: tickets@concerts.example — Your free piano recital ticket is attached(PDF). Please open the attachment to print your ticket.",
+      "is_safe":false,
+      "explaination":"Aggresivly asks for Linda to open the pdf. Attachments can contain malware. Linda should confirm through the official website."
+    },
+    {
+      "type":"password",
+      "title":"Piano!Magic_42",
+      "description":"Is the password that Linda used.",
+      "is_safe":true,
+      "explaination":"Is a long password, with symbols, numbers, and characters. This makes it strong but memorable."
+    }
+  ]
+}
+  </script>
+</body>
+</html>
