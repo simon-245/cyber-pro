@@ -11,7 +11,7 @@
 <body class="main-bg">
   <div class="container">
     <header>
-      <h1>Level 1: Marta's Hack</h1>
+      <h1>Level 2: Kristjan's Hack</h1>
       <p id="level-story"></p>
     </header>
 
@@ -34,7 +34,7 @@
     "character_name":"Kristjan",
     "age":"12",
     "background":"Enjoys drawing animals.",
-    "story":"Kristjan was hacked, you must find how why!"
+    "story":"Kristjan was hacked, you must find out why!"
   },
   "scenarios":[
     {
@@ -43,6 +43,20 @@
       "description":"",
       "is_safe":true,
       "explaination":""
+    },
+    {
+      "type":"phishing",
+      "title":"Email:",
+      "description":"Hi Marta! Your Minecraft account will be suspended unless you confirm your username and password here: http://confirm-mc-login.example",
+      "is_safe":false,
+      "explaination":"The email is fake, the hackers just wanted to know what her passord is."
+    },
+    {
+      "type":"password",
+      "title":"D0g!R@inb0w77",
+      "description":"The password that Kristjan used.",
+      "is_safe":true,
+      "explaination":"It mixes capital letters, numbers, and symbols with random words, making it very hard to crack."
     }
   ]
 }

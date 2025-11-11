@@ -1,13 +1,8 @@
-/* -------------------------------------------------
-   js/level.js – Enhanced Cyber Pro Game Logic
-   ------------------------------------------------- */
-
-// Utility function to navigate
 function goTo(url) {
   window.location.href = url;
 }
 
-// Function to go to the next level based on current page
+// goes to next level, based on current
 function goToNextLevel() {
     const currentPage = window.location.pathname;
     const match = currentPage.match(/level_(\d+)\.html/);
@@ -15,6 +10,7 @@ function goToNextLevel() {
     if (match) {
       console.log("matched")
         const currentLevel = parseInt(match[1]);
+      // max is 5
         if(currentLevel==5){
           alert("Good job, you completed all levels!")
         }
@@ -27,17 +23,15 @@ function goToNextLevel() {
     }
 }
 
-// Icon mapping for different scenario types
+// icons for scenarios, add more
 const SCENARIO_ICONS = {
     wifi: '📡',
     phishing: '🎣',
     password: '🔑',
-    download: '⬇️',
-    link: '🔗',
-    social: '💬',
     default: '⚠️'
 };
 
+// run on startup, loads scenarios and prepares buttons
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('scenarios-container')) {
         loadLevel();
@@ -50,9 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let currentLevelData = null;
 
-/**
- * Loads the level data by reading the embedded script tag.
- */
+// load level data from json in script
 function loadLevel() {
     try {
         const dataElement = document.getElementById('level-data');
@@ -67,11 +59,9 @@ function loadLevel() {
     }
 }
 
-/**
- * Renders the story and scenarios on the page.
- */
+// renders level data into html
 function renderLevel(data) {
-    // Render the Story with better formatting
+  // render victim component
     const storyEl = document.getElementById('level-story');
     storyEl.innerHTML = `
         <div class="story-box">
@@ -83,22 +73,24 @@ function renderLevel(data) {
         </div>
     `;
 
-    // Render the Scenarios with enhanced cards
+    // render scenarios
     const container = document.getElementById('scenarios-container');
     container.innerHTML = '';
 
+    // iterate scenarios
     data.scenarios.forEach((scenario, index) => {
         const scenarioCard = document.createElement('div');
         scenarioCard.className = 'scenario-card';
         scenarioCard.setAttribute('data-index', index);
         scenarioCard.setAttribute('data-safe', scenario.is_safe ? 'safe' : 'unsafe');
         
-        // Add click handler
+        //  handle click on card 
         scenarioCard.addEventListener('click', () => toggleSelection(scenarioCard));
 
-        // Get appropriate icon
+        // get icon
         const icon = SCENARIO_ICONS[scenario.type] || SCENARIO_ICONS.default;
 
+        // create scenario component
         scenarioCard.innerHTML = `
             <div class="card-header">
                 <span class="scenario-icon">${icon}</span>
@@ -118,14 +110,11 @@ function renderLevel(data) {
     });
 }
 
-/**
- * Toggles the 'selected' state of a scenario card.
- */
+// togle card state
 function toggleSelection(card) {
     if (!document.getElementById('submitBtn').disabled) {
         card.classList.toggle('selected');
         
-        // Update checkbox
         const checkbox = card.querySelector('.checkbox');
         if (card.classList.contains('selected')) {
             checkbox.textContent = '☑';
@@ -137,9 +126,7 @@ function toggleSelection(card) {
     }
 }
 
-/**
- * Checks the user's selected scenarios against the correct answers.
- */
+// compare answer with solution
 function checkAnswers() {
     if (!currentLevelData) return;
 
@@ -247,9 +234,7 @@ function checkAnswers() {
     feedbackEl.style.animation = 'slideIn 0.5s ease-out';
 }
 
-/**
- * Resets the level for another attempt.
- */
+// reset level for next attempt
 function resetLevel() {
     const cards = document.querySelectorAll('.scenario-card');
     cards.forEach(card => {
