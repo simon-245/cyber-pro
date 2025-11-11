@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyber Pro – Level 1: Marta's Hack</title>
+  <link rel="stylesheet" href="css/new_style.css" />
+  <script src="js/level.js" defer></script>
+</head>
+<body class="main-bg">
+  <div class="container">
+    <header>
+      <h1>Level 1: Marta's Hack</h1>
+      <p id="level-story"></p>
+    </header>
+
+    <main>
+      <h2>⚠️ Identify the **Unsafe Scenarios** ⚠️</h2>
+      <p>Click on the scenarios you think are **unsafe** to select them.</p>
+
+      <div id="scenarios-container" class="mission-grid">
+        </div>
+
+      <div class="feedback" id="result-feedback"></div>
+
+      <button id="submitBtn" class="big-btn">Submit Answer</button>
+      <button id="nextLevelBtn" class="small-btn" style="display:none; margin-top: 1rem;">Next Level >></button>
+    </main>
+  </div>
+<script id="level-data" type="application/json">
+{
+  "story":{
+    "character_name":"Marta",
+    "age":"11",
+    "background":"Loves to play Minecraft",
+    "story":"Marta was hacked, you must find how why!"
+  },
+  "scenarios":[
+    {
+      "type":"wifi",
+      "title":"Tallinn_Free_WiFi",
+      "description":"No password. Fully exposed to everyone.",
+      "is_safe":false,
+      "explaination":"Open wifi's make it easier for hackers to intercept your traffic."
+    },
+    {
+      "type":"phishing",
+      "title":"Email:",
+      "description":"Hi Marta! Your Minecraft account will be suspended unless you confirm your username and password here: http://confirm-mc-login.example",
+      "is_safe":false,
+      "explaination":"The email is fake, the hackers just wanted to know what her passord is."
+    },
+    {
+      "type":"password",
+      "title":"marta123",
+      "description":"The password that Marta used.",
+      "is_safe":false,
+      "explaination":"The password uses her name and a simple number pattern, which are easy for hackers to guess"
+    }
+  ]
+}
+  </script>
+</body>
+</html>
