@@ -28,6 +28,7 @@ const SCENARIO_ICONS = {
     wifi: '📡',
     phishing: '🎣',
     password: '🔑',
+    socialmedia: '👤',
     default: '⚠️'
 };
 
@@ -208,7 +209,7 @@ function checkAnswers() {
     const score = `${correctPicks} / ${totalScenarios}`;
     const percentage = correctPicks==0 ? 0 : Math.round((correctPicks / totalScenarios) * 100);
 
-    if (score === 100) {
+    if (incorrectPicks === 0) {
         feedbackEl.className = 'feedback correct';
         feedbackEl.innerHTML = `
             <div class="success-message">
