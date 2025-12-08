@@ -132,6 +132,8 @@ function checkAnswers() {
 
     const cards = document.querySelectorAll('.scenario-card');
     let correctPicks = 0;
+    let incorrectPicks = 0;
+    const totalScenarios = currentLevelData.scenarios.length;
     let totalUnsafe = currentLevelData.scenarios.filter(s => !s.is_safe).length;
     
     document.getElementById('submitBtn').disabled = true;
@@ -160,16 +162,19 @@ function checkAnswers() {
             card.classList.add('result-wrong');
             resultBadge.innerHTML = '✗ FALSE ALARM';
             resultBadge.classList.add('badge-wrong');
+            incorrectPicks++
         } else if (!isSelected && isUnsafe) {
             // Missed danger
             card.classList.add('result-missed');
             resultBadge.innerHTML = '! MISSED';
             resultBadge.classList.add('badge-missed');
+            incorrectPicks++
         } else {
             // Correctly didn't select safe scenario
             card.classList.add('result-safe');
             resultBadge.innerHTML = '✓ SAFE';
             resultBadge.classList.add('badge-safe');
+            correctPicks++;
         }
 
         // Add explanation
@@ -200,10 +205,10 @@ function checkAnswers() {
 
     // Display Final Feedback with animation
     const feedbackEl = document.getElementById('result-feedback');
-    const score = `${correctPicks} / ${totalUnsafe}`;
-    const percentage = Math.round((correctPicks / totalUnsafe) * 100);
+    const score = `${correctPicks} / ${totalScenarios}`;
+    const percentage = correctPicks==0 ? 0 : Math.round((correctPicks / totalScenarios) * 100);
 
-    if (correctPicks === totalUnsafe) {
+    if (score === 100) {
         feedbackEl.className = 'feedback correct';
         feedbackEl.innerHTML = `
             <div class="success-message">
@@ -221,7 +226,7 @@ function checkAnswers() {
             <div class="retry-message">
                 <div class="retry-icon">🔍</div>
                 <h3>Mission Incomplete</h3>
-                <p>You found ${score} unsafe scenarios</p>
+                <p>You correctly guessed ${score} scenarios</p>
                 <div class="score-display">${percentage}%</div>
                 <p class="retry-subtext">Review the cards and try again!</p>
             </div>
