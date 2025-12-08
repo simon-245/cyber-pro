@@ -28,6 +28,7 @@ const SCENARIO_ICONS = {
     wifi: '📡',
     phishing: '🎣',
     password: '🔑',
+    social-media: '👤'
     default: '⚠️'
 };
 
