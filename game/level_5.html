@@ -17,8 +17,8 @@
     </header>
 
     <main>
-      <h2>⚠️ Identify the **Unsafe Scenarios** ⚠️</h2>
-      <p>Click on the scenarios you think are **unsafe** to select them.</p>
+      <h2>⚠️ Identify the Unsafe Scenarios ⚠️</h2>
+      <p>Click on the scenarios you think are unsafe to select them.</p>
 
       <div id="scenarios-container" class="mission-grid">
         </div>
@@ -38,12 +38,19 @@
     "story":"Robert was hacked! You must find out why!"
   },
   "scenarios":[
-{
+    {
       "type": "ads",
-      "title": "Free Printed Photo of Your Dog!",
-      "description": "Upload a picture of your dog and get a FREE printed photo delivered!",
-      "is_safe": false,
-      "explaination": "Requests images, delivery scam, unsecured site."
+      "title": "Paw-some Pet Filters!",
+      "description": "Snap a photo of your pet and use our new exclusive filters and stickers! Download and share digitally for FREE!",
+      "is_safe": true,
+      "explaination": "Promotes a free, digital in-game service (filters/stickers) that only requires image processing locally or in-game, not physical delivery or personal address information."
+    }
+    {
+      "type":"socialmedia",
+      "title":"Social Media message from s stranger:",
+      "description":"Let’s all do face reveals! Post your selfie here — don’t be shy!",
+      "is_safe":false,
+      "explaination":"A stranger is asking you for pictures."
     },
     {
       "type": "wifi",

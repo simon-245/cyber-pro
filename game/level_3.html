@@ -15,8 +15,8 @@
     </header>
 
     <main>
-      <h2>⚠️ Identify the **Unsafe Scenarios** ⚠️</h2>
-      <p>Click on the scenarios you think are **unsafe** to select them.</p>
+      <h2>⚠️ Identify the Unsafe Scenarios ⚠️</h2>
+      <p>Click on the scenarios you think are unsafe to select them.</p>
 
       <div id="scenarios-container" class="mission-grid">
         </div>
@@ -36,12 +36,19 @@
     "story":"Lisa was hacked, you must find out why!"
   },
   "scenarios":[
-{
+    {
       "type": "ads",
       "title": "Win a Private Training Session!",
       "description": "Football Talent Program 2025 — Enter your NAME and AGE to join the draw!",
       "is_safe": false,
       "explaination": "Asks for personal data, fake talent program, suspicious domain."
+    },
+    {
+      "type":"socialmedia",
+      "title":"Social Media message from 'ChallengeMaster':",
+      "description":"Wanna join my secret challenge club? We do fun dares! But you can’t tell anyone — especially not adults.",
+      "is_safe":false,
+      "explaination":"A stranger is asking you to hide something from adults."
     },
     {
       "type": "wifi",

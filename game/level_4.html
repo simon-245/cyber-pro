@@ -17,8 +17,8 @@
     </header>
 
     <main>
-      <h2>⚠️ Identify the **Unsafe Scenarios** ⚠️</h2>
-      <p>Click on the scenarios you think are **unsafe** to select them.</p>
+      <h2>⚠️ Identify the Unsafe Scenarios ⚠️</h2>
+      <p>Click on the scenarios you think are unsafe to select them.</p>
 
       <div id="scenarios-container" class="mission-grid">
         </div>
@@ -38,12 +38,19 @@
     "story":"Linda was Hacked! You must find out why!"
   },
   "scenarios":[
-{
+    {
       "type": "ads",
-      "title": "Free Kids Concert Tickets!",
-      "description": "Congratulations! You have been selected to receive 2 tickets. Just confirm with your e-mail.",
-      "is_safe": false,
-      "explaination": "Requests email, fake giveaways, cheap .fun domain."
+      "title": "Family Fun Concert!",
+      "description": "Tickets on sale now! Catch the biggest hits from your kids' favorite stars. Click here for showtimes and pricing!",
+      "is_safe": true,
+      "explaination": "Genuine advertisement for an event. It directs users to an in-game purchase/information screen rather than asking for personal data for a 'free' item."
+    }
+    {
+      "type":"socialmedia",
+      "title":"Social Media message from 'FunToys4U':",
+      "description":"Congratulations! You won a free toy set! Just send your address so we can mail it to you!",
+      "is_safe":false,
+      "explaination":"A stranger is asking you for personal information."
     },
     {
       "type": "wifi",

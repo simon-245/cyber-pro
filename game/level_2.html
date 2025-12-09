@@ -16,8 +16,8 @@
     </header>
 
     <main>
-      <h2>⚠️ Identify the **Unsafe Scenarios** ⚠️</h2>
-      <p>Click on the scenarios you think are **unsafe** to select them.</p>
+      <h2>⚠️ Identify the Unsafe Scenarios ⚠️</h2>
+      <p>Click on the scenarios you think are unsafe to select them.</p>
 
       <div id="scenarios-container" class="mission-grid">
         </div>
@@ -37,12 +37,19 @@
     "story":"Kristjan was hacked, you must find out why!"
   },
   "scenarios":[
-{
+    {
       "type": "ads",
       "title": "Art Talent Contest — Win a Pro Drawing Tablet!",
       "description": "Show your animal artwork and WIN a drawing tablet! Upload 1 image to enter.",
-      "is_safe": false,
+      "is_safe": true,
       "explaination": "Requests file uploads, unknown contest site, no age/parent consent."
+    },
+    {
+      "type":"socialmedia",
+      "title":"Social Media message from a stranger:",
+      "description":"You look like someone I could be best friends with! What’s your name and school?",
+      "is_safe":false,
+      "explaination":"A stranger is asking you for personal information."
     },
     {
       "type": "wifi",

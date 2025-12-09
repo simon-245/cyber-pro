@@ -25,6 +25,7 @@ function goToNextLevel() {
 
 // icons for scenarios, add more
 const SCENARIO_ICONS = {
+    ads: '📢',
     wifi: '📡',
     phishing: '🎣',
     password: '🔑',
@@ -188,7 +189,7 @@ function checkAnswers() {
             `;
         } else {
             explanation.innerHTML = `
-                <strong>✓ SAFE:</strong> This scenario is generally secure.
+                <strong>✓ SAFE:</strong> ${scenario.explaination || 'This scenario is generally secure.'}
             `;
         }
 
