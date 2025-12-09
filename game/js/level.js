@@ -13,9 +13,10 @@ function goToNextLevel() {
       // max is 5
         if(currentLevel==5){
           alert("Good job, you completed all levels!")
+        }else{
+          const nextLevel = currentLevel + 1;
+          window.location.href = `level_${nextLevel}.html`;
         }
-        const nextLevel = currentLevel + 1;
-        window.location.href = `level_${nextLevel}.html`;
     } else {
       console.log("didnt match")
         // Fallback if pattern doesn't match
@@ -25,6 +26,7 @@ function goToNextLevel() {
 
 // icons for scenarios, add more
 const SCENARIO_ICONS = {
+    information_sharing: '🙋',
     ads: '📢',
     wifi: '📡',
     phishing: '🎣',
